@@ -10,10 +10,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+    <script src="https://kit.fontawesome.com/6f1c35d151.js" crossorigin="anonymous"></script>
+
+
     <style>
         html,
         body {
             height: 100%;
+        }
+
+        .fa-trash-alt {
+            font-size: 1.5rem;
         }
     </style>
 
@@ -21,14 +28,28 @@
     <title>Admin</title>
 </head>
 
-<body>
-    <header class="text-center bg-dark text-light p-3">
+<body class="bg-dark text-light">
+
+    <div class="position-fixed top-0 w-100" style="z-index: 1000;">
+
+        <div class="row justify-content-center m-3">
+            <div class="col-lg-6 col-md-8">
+
+                <div class="justify-content-center" id="alert"></div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <header class="text-center bg-light text-dark p-3">
         <h1>Admin</h1>
     </header>
 
     <main class="container">
 
-        <div class="row">
+        <div class="row text">
             <div class="col text-center">
                 <div class="btn-group m-3">
                     <a class="btn btn-danger" href="/logout">logout</a>
@@ -38,13 +59,6 @@
 
                 <h3>Edit users</3h>
 
-            </div>
-        </div>
-
-
-        <div class="row justify-content-center">
-            <div class="col-lg-6 col-md-8">
-                <div class="justify-content-center" id="alert"></div>
             </div>
         </div>
 
@@ -62,7 +76,7 @@
 
             <div class="col">
 
-                <table class="table">
+                <table class="table text-light">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -96,8 +110,8 @@
                                     <%- p.value %>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-danger"
-                                        onclick="deleteRow(<%- i %>)">Delete</button>
+                                    <button type="button" class="btn btn-danger" onclick="deleteRow(<%- i %>)"><i
+                                            class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
 
@@ -142,7 +156,8 @@
             let id = t.rows.length - 1
 
             idCell.innerHTML = id + 1;
-            del.innerHTML = `<button type="button" class="btn btn-danger"onclick = "deleteRow(${id})" > Delete</button>`
+            del.innerHTML = `<button type="button" class="btn btn-danger"onclick = "deleteRow(${id})"><i
+                                            class="fas fa-trash-alt"></i></button>`
 
             row.append(idCell)
             row.append(name)
