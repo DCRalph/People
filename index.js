@@ -149,6 +149,33 @@ app.get('/person/:name', (req, res) => {
     res.render("index", { text })
 })
 
+app.get('/api/p/:name', (req, res) => {
+
+    let name = req.params.name
+
+    if (name == 'admin') {
+        res.redirect('admin')
+    }
+
+    let person = getPerson(name)
+
+    let text = {}
+
+    if (typeof person == 'undefined') {
+        text = {
+            title: 'Not found',
+            body: 'That person is not in my database.'
+        }
+    } else {
+        text = {
+            title: person.name,
+            body: person.value
+        }
+    }
+
+    res.status(200).send(text)
+})
+
 app.get('/admin', (req, res) => {
     if (user = validateUser(req.cookies['Token'])) {
         let people = db.get('people').value()
