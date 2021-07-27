@@ -179,6 +179,10 @@
         function updateRows() {
             for (let i = 0; i < t.rows.length; i++) {
                 t.rows[i].cells[0].innerText = i + 1
+                t.rows[i].cells[4].innerHTML = `
+                <button type="button" class="btn btn-danger"onclick="deleteRow(${i})">
+                    <i class="fas fa-trash-alt"></i>
+                    </button>`
             }
         }
 

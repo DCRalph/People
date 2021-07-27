@@ -99,89 +99,67 @@ app.post('/person', (req, res) => {
 
     let name = req.body.person.toLowerCase()
 
-    if (name == 'admin') {
-        res.redirect('admin')
-    }
+    if (name == 'admin') return res.redirect('admin')
 
     let person = getPerson(name)
 
     let text = {}
 
-    if (typeof person == 'undefined') {
+    if (name == '') {
         text = {
+            exists: true,
+            title: 'How to use',
+            body: 'Enter a name and the algorithm will calculate whether or not there a good asset to the team.'
+        }
+    } else if (typeof person == 'undefined') {
+        text = {
+            exists: true,
             title: 'Not found',
             body: 'That person is not in my database.'
         }
     } else {
         text = {
+            exists: true,
             title: person.name,
             body: person.value
         }
     }
 
-    res.render("index", { text })
-})
-
-app.get('/person/:name', (req, res) => {
-
-    let name = req.params.name
-
-    if (name == 'admin') {
-        res.redirect('admin')
-    }
-
-    let person = getPerson(name)
-
-    let text = {}
-
-    if (typeof person == 'undefined') {
-        text = {
-            title: 'Not found',
-            body: 'That person is not in my database.'
-        }
-    } else {
-        text = {
-            title: person.name,
-            body: person.value
-        }
-    }
-
-    res.render("index", { text })
-})
-
-app.get('/api/p/:name', (req, res) => {
-
-    let name = req.params.name
-
-    if (name == 'admin') {
-        res.redirect('admin')
-    }
-
-    let person = getPerson(name)
-
-    let text = {}
-
-    if (typeof person == 'undefined') {
-        text = {
-            title: 'Not found',
-            body: 'That person is not in my database.'
-        }
-    } else {
-        text = {
-            title: person.name,
-            body: person.value
-        }
-    }
-
+    // res.render("index", { text })
     res.status(200).send(text)
 })
+
+// app.get('/api/p/:name', (req, res) => {
+
+//     let name = req.params.name
+
+//     if (name == 'admin') {
+//         res.redirect('admin')
+//     }
+
+//     let person = getPerson(name)
+
+//     let text = {}
+
+//     if (typeof person == 'undefined') {
+//         text = {
+//             title: 'Not found',
+//             body: 'That person is not in my database.'
+//         }
+//     } else {
+//         text = {
+//             title: person.name,
+//             body: person.value
+//         }
+//     }
+//     res.status(200).send(text)
+// })
 
 app.get('/admin', (req, res) => {
     if (user = validateUser(req.cookies['Token'])) {
         let people = db.get('people').value()
         return res.render("admin", { people })
     }
-
     res.render("admin-login")
 })
 
@@ -192,26 +170,28 @@ app.post('/admin-login', (req, res) => {
     let l = login(username, password)
 
     if (l.status == true) {
-        res.cookie('Token', l.token, { maxAge: 60000 * 60 * 24 * 365 });
-        res.redirect('/admin')
+        res.cookie('Token', l.token, { maxAge: 60000 * 60 * 24 * 365 }).redirect('/admin')
+        // res.
         return
     } else {
         res.render("admin-login", { msg: { text: l.msg, type: 'danger' } })
-        res.redirect('/admin')
+        // res.redirect('/admin')
     }
-
 })
 
 app.post('/admin-edit', (req, res) => {
-    console.log(req.body);
-    console.log('*******');
-    console.log(db.get('people').value());
+    if (user = validateUser(req.cookies['Token'])) {
 
-    db.set('people', req.body)
-        .write()
+        // console.log(req.body);
+        // console.log('*******');
+        // console.log(db.get('people').value());
 
-    res.status(200).send({ type: 'success', message: 'Successful worked' })
+        db.set('people', req.body)
+            .write()
 
+        return res.status(200).send({ type: 'success', message: 'Successful worked' })
+    }
+    res.render("admin-login", { msg: { text: 'what are u doing step bro', type: 'danger' } })
 })
 
 app.get("/logout", (req, res) => {

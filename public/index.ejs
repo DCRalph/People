@@ -19,7 +19,7 @@
         body {
             font-family: 'Montserrat Alternates', sans-serif;
             height: 100%;
-            background: linear-gradient(135deg, rgba(154, 57, 163, 1) 0%, rgba(65, 103, 168, 1) 100%);
+
         }
 
         html {
@@ -28,6 +28,24 @@
 
         body {
             overflow: auto;
+            /* background: linear-gradient(135deg, rgba(154, 57, 163, 1) 0%, rgba(65, 103, 168, 1) 100%); */
+            background: linear-gradient(135deg, #fc00ff, #00dbde);
+            background-size: 200% 200%;
+            animation: gradient 10s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .search-box {
@@ -130,6 +148,10 @@
         #search::placeholder {
             color: #FFFFFF;
         }
+
+        .card {
+            border-radius: 1rem;
+        }
     </style>
 
 
@@ -147,7 +169,7 @@
 
                 <div class="search-icon"><i class="fa fa-search search-icon"></i></div>
 
-                <form method="POST" action="/person" class="search-form">
+                <form class="search-form" id="searchForm">
                     <input type="text" placeholder="Name" id="search" name="person" autocomplete="off">
                 </form>
 
@@ -162,13 +184,6 @@
                 <div class="go-icon"><i class="fa fa-arrow-right"></i></div>
             </div>
 
-
-            <!-- <div class="col-4 bg-dark rounded">
-                <div class="form-floating m-3">
-                    <input type="text" class="form-control" id="nameInput" placeholder="name">
-                    <label for="nameInput">Name</label>
-                </div>
-            </div> -->
         </div>
 
         <div class="row justify-content-center mb-5">
@@ -186,12 +201,8 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title display-3 text-center">
-                            <%- text.title %>
-                        </h5>
-                        <p class="card-text text-center fs-3">
-                            <%- text.body %>
-                        </p>
+                        <h5 class="card-title display-3 text-center" id="cardTitle"></h5>
+                        <p class="card-text text-center fs-3" id="cardBody"></p>
                     </div>
                 </div>
 
@@ -206,27 +217,52 @@
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
     <script>
-        $(document).ready(function () {
-            $("#search").focus(function () {
-                $(".search-box").addClass("border-searching");
-                $(".search-icon").addClass("si-rotate");
-            });
-            $("#search").blur(function () {
-                $(".search-box").removeClass("border-searching");
-                $(".search-icon").removeClass("si-rotate");
-            });
-            $("#search").keyup(function () {
-                if ($(this).val().length > 0) {
-                    $(".go-icon").addClass("go-in");
-                }
-                else {
-                    $(".go-icon").removeClass("go-in");
-                }
-            });
-            $(".go-icon").click(function () {
-                $(".search-form").submit();
-            });
+
+        function getPerson() {
+            fetch('/person', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ person: $("#search").val() })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+
+                    $("#cardTitle").html(data.title)
+                    $("#cardBody").html(data.body)
+                    if (data.exists) $("#search").val('')
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        }
+
+
+        $("#search").focus(function () {
+            $(".search-box").addClass("border-searching");
+            $(".search-icon").addClass("si-rotate");
         });
+        $("#search").blur(function () {
+            $(".search-box").removeClass("border-searching");
+            $(".search-icon").removeClass("si-rotate");
+        });
+        $("#search").keyup(function () {
+            if ($(this).val().length > 0) $(".go-icon").addClass("go-in");
+            else $(".go-icon").removeClass("go-in");
+        });
+        $("#searchForm").submit(function (e) {
+            e.preventDefault()
+            getPerson()
+        });
+        $(".go-icon").click(function () {
+            getPerson()
+        });
+
+        getPerson()
+        $("#search").focus()
+
     </script>
 
 </body>
