@@ -87,7 +87,6 @@ function validateUser(token) {
     } else return false
 }
 
-
 app.get('/', (req, res) => {
     text = {
         title: 'How to use',
