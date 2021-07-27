@@ -88,18 +88,6 @@ function validateUser(token) {
 }
 
 
-// console.log(login('william', 'open'));
-
-// console.log(validateUser(tokenLookup['william']));
-
-// console.log(logout('william'))
-
-// console.log(tokens);
-// console.log(tokenLookup);
-
-console.log(getPerson('ytstormmv'));
-
-
 app.get('/', (req, res) => {
     text = {
         title: 'How to use',
