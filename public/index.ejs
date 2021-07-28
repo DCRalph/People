@@ -24,15 +24,16 @@
 
         html {
             overflow: hidden;
+            background-color: #1A1A1A;
         }
 
         body {
+            display: none;
             overflow: auto;
-            /* background: linear-gradient(135deg, rgba(154, 57, 163, 1) 0%, rgba(65, 103, 168, 1) 100%); */
-            background: linear-gradient(135deg, #fc00ff, #00dbde);
-            background-size: 200% 200%;
+            background-size: 200% 200% !important;
             animation: gradient 10s ease infinite;
         }
+
 
         @keyframes gradient {
             0% {
@@ -159,7 +160,7 @@
 </head>
 
 
-<body class="d-flex flex-column">
+<body>
 
     <main class="container">
 
@@ -260,8 +261,28 @@
             getPerson()
         });
 
+        var backgrounds = [
+            ['#c21500', '#ffc500'],
+            ['#fc00ff', '#00dbde'],
+            ['#00c6ff', '#0072ff'],
+            ['#fc354c', '#0abfbc'],
+            ['#4776e6', '#8e54e9'],
+            ['#ff8008', '#ffc837'],
+            ['#1a2980', '#26d0ce'],
+            ['#aa076b', '#61045f'],
+            ['#da22ff', '#9733ee'],
+            ['#da22ff', '#9733ee'],
+            ['#8a2387', '#e94057', '#f27121']
+        ]
+
+
+        let index = Math.floor(Math.random() * backgrounds.length)
+        let bg = `linear-gradient(135deg, ${backgrounds[index].toString()})`
+        $('body').css('background', bg)
+
         getPerson()
-        $("#search").focus()
+
+        $('body').delay(1000).fadeIn()
 
     </script>
 

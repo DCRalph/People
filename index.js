@@ -99,13 +99,13 @@ app.post('/person', (req, res) => {
 
     let name = req.body.person.toLowerCase()
 
-    if (name == 'admin') return res.redirect('admin')
+    // if (name == 'admin') return res.redirect('admin')
 
     let person = getPerson(name)
 
     let text = {}
 
-    if (name == '') {
+    if (name == '' || name == 'help' || name == 'info') {
         text = {
             exists: true,
             title: 'How to use',
