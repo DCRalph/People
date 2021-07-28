@@ -88,11 +88,7 @@ function validateUser(token) {
 }
 
 app.get('/', (req, res) => {
-    text = {
-        title: 'How to use',
-        body: 'Enter a name and the algorithm will calculate whether or not there a good asset to the team.'
-    }
-    res.render("index", { text })
+    res.render("index")
 })
 
 app.post('/person', (req, res) => {
@@ -105,17 +101,11 @@ app.post('/person', (req, res) => {
 
     let text = {}
 
-    if (name == '' || name == 'help' || name == 'info') {
+    if (name == '' || name == 'help' || name == 'info' || typeof person == 'undefined') {
         text = {
             exists: true,
             title: 'How to use',
-            body: 'Enter a name and the algorithm will calculate whether or not there a good asset to the team.'
-        }
-    } else if (typeof person == 'undefined') {
-        text = {
-            exists: true,
-            title: 'Not found',
-            body: 'That person is not in my database.'
+            body: 'Enter a name and the algorithm will calculate their worth to society.'
         }
     } else {
         text = {
@@ -125,35 +115,8 @@ app.post('/person', (req, res) => {
         }
     }
 
-    // res.render("index", { text })
     res.status(200).send(text)
 })
-
-// app.get('/api/p/:name', (req, res) => {
-
-//     let name = req.params.name
-
-//     if (name == 'admin') {
-//         res.redirect('admin')
-//     }
-
-//     let person = getPerson(name)
-
-//     let text = {}
-
-//     if (typeof person == 'undefined') {
-//         text = {
-//             title: 'Not found',
-//             body: 'That person is not in my database.'
-//         }
-//     } else {
-//         text = {
-//             title: person.name,
-//             body: person.value
-//         }
-//     }
-//     res.status(200).send(text)
-// })
 
 app.get('/admin', (req, res) => {
     if (user = validateUser(req.cookies['Token'])) {
@@ -200,7 +163,6 @@ app.get("/logout", (req, res) => {
     res.clearCookie("Token")
     res.redirect('/admin')
 });
-
 
 var server = app.listen(port, () => {
     console.log('server is running on port', server.address().port);
