@@ -133,12 +133,9 @@ app.post('/admin-login', (req, res) => {
     let l = login(username, password)
 
     if (l.status == true) {
-        res.cookie('Token', l.token, { maxAge: 60000 * 60 * 24 * 365 }).redirect('/admin')
-        // res.
-        return
+        return res.cookie('Token', l.token, { maxAge: 60000 * 60 * 24 * 365 }).redirect('/admin')
     } else {
-        res.render("admin-login", { msg: { text: l.msg, type: 'danger' } })
-        // res.redirect('/admin')
+        return res.render("admin-login", { msg: { text: l.msg, type: 'danger' } })
     }
 })
 
