@@ -96,10 +96,9 @@ app.get('/p/:person', (req, res) => {
     let person = getPerson(req.params.person.toLowerCase())
 
     if(typeof person != 'undefined'){
-        res.render("index", person)
+        return res.render("index", person)
     }
-
-
+    
     res.render("index")
 })
 
