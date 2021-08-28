@@ -292,7 +292,9 @@
         let bg = `linear-gradient(135deg, ${backgrounds[index].toString()})`
         $('body').css('background', bg)
 
-        <% if (!locals.person) { %> getPerson() <% } %> 
+        <% if (!locals.person) { %>
+             getPerson() 
+        <% } %> 
 
         $('body').delay(1000).fadeIn()
 
