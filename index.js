@@ -103,7 +103,7 @@ app.get('/p/:person', (req, res) => {
             body: person.value
         }
 
-        return res.render("index", {personF})
+        return res.render("index", {person: personF})
     }
 
     res.render("index")
