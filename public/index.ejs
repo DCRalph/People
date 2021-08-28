@@ -231,13 +231,13 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
     <script>
 
-        function getPerson() {
+        function getPerson(pp) {
             fetch('/person', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ person: $("#search").val() })
+                body: JSON.stringify({ person: pp ? pp : $("#search").val() })
             })
                 .then(res => res.json())
                 .then(data => {
@@ -292,9 +292,7 @@
         let bg = `linear-gradient(135deg, ${backgrounds[index].toString()})`
         $('body').css('background', bg)
 
-        <% if (!locals.person) { %>
-             getPerson() 
-        <% } %> 
+        getPerson(locals.person) 
 
         $('body').delay(1000).fadeIn()
 
