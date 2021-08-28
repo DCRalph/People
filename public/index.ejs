@@ -210,8 +210,12 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title display-3 text-center" id="cardTitle"></h5>
-                        <p class="card-text text-center fs-3" id="cardBody"></p>
+                        <h5 class="card-title display-3 text-center" id="cardTitle">
+                            <% if (locals.person) { %> <%= person.title %> <% } %>
+                        </h5>
+                        <p class="card-text text-center fs-3" id="cardBody">
+                            <% if (locals.person) { %> <%= person.body %> <% } %>
+                        </p>
                     </div>
                 </div>
 
@@ -288,7 +292,7 @@
         let bg = `linear-gradient(135deg, ${backgrounds[index].toString()})`
         $('body').css('background', bg)
 
-        getPerson()
+        <% if (!locals.person) { %> getPerson() <% } %>
 
         $('body').delay(1000).fadeIn()
 

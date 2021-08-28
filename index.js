@@ -91,6 +91,18 @@ app.get('/', (req, res) => {
     res.render("index")
 })
 
+app.get('/p/:person', (req, res) => {
+
+    let person = getPerson(req.prams.person.toLowerCase())
+
+    if(typeof person != 'undefined'){
+        res.render("index", person)
+    }
+
+
+    res.render("index")
+})
+
 app.post('/person', (req, res) => {
 
     let name = req.body.person.toLowerCase()
