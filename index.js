@@ -95,8 +95,15 @@ app.get('/p/:person', (req, res) => {
 
     let person = getPerson(req.params.person.toLowerCase())
 
+    
+
     if(typeof person != 'undefined'){
-        return res.render("index", {person})
+        let personF = {
+            title: person.name,
+            body: person.value
+        }
+
+        return res.render("index", {personF})
     }
 
     res.render("index")
